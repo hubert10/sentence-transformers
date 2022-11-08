@@ -14,24 +14,26 @@ Original file is located at
 import torch
 import sys
 import numpy as np
- 
+
 from transformers import BloomTokenizerFast, BloomForCausalLM
 
 model_name = "bigscience/bloom-560m"
 
 # Load pre-trained model (weights)
 with torch.no_grad():
-        model = BloomForCausalLM.from_pretrained(model_name)
-        model.eval()
+    model = BloomForCausalLM.from_pretrained(model_name)
+    model.eval()
 # Load pre-trained model tokenizer (vocabulary)
 tokenizer = BloomTokenizerFast.from_pretrained(model_name)
- 
+
+
 def score(sentence):
     tokenize_input = tokenizer.encode(sentence)
     tensor_input = torch.tensor([tokenize_input])
-    loss=model(tensor_input, labels=tensor_input)[0]
+    loss = model(tensor_input, labels=tensor_input)[0]
     return np.exp(loss.detach().numpy())
- 
+
+
 social_norms = [
     "People do not smile at strangers.",
     "Women cover their hair in church.",
@@ -45,15 +47,14 @@ incorrect = [
     "This will, if not already, caused  problems as there are very limited spaces for us.",
     "A manager should always be honest with their employees.",
     "They cooked the dinner themself.",
-    "If I will be in London, I will contact to you."
+    "If I will be in London, I will contact to you.",
 ]
 correct = [
     "Our current population is 6 billion people, and it is still growing exponentially.",
     "This will, if not already, cause problems as there are very limited spaces for us.",
     "A manager should always be honest with his employees.",
     "They cooked the dinner themselves.",
-    "If I am in London, I will contact you."
-        
+    "If I am in London, I will contact you.",
 ]
 
 print(f"Incorrect sentence: ")
