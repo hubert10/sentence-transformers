@@ -4,8 +4,6 @@ This repo provides examples on how to use LLMs to run most known NLP sentence ta
 
 Each folder contains the code to test the corresponding tasks.
 
--
-
 ## Installation
 
 We recommend **Python 3.6** or higher, **[PyTorch 1.6.0](https://pytorch.org/get-started/locally/)** or higher and **[transformers v4.6.0](https://github.com/huggingface/transformers)** or higher. The code does **not** work with Python 2.7.
@@ -83,7 +81,7 @@ This framework allows you to fine-tune your own sentence embedding methods, so t
 See [Training Overview](https://www.sbert.net/docs/training/overview.html) for an introduction how to train your own embedding models. We provide [various examples](https://github.com/UKPLab/sentence-transformers/tree/master/examples/training) how to train models on various datasets.
 
 Some highlights are:
-- Support of various transformer networks including BERT, RoBERTa, XLM-R, DistilBERT, Electra, BART, ...
+- Support of various transformer networks including BLOOM, GPT-J-6B, T5, BART, ...
 - Multi-Lingual and multi-task learning
 - Evaluation during training to find optimal model
 - [10+ loss-functions](https://www.sbert.net/docs/package_reference/losses.html) allowing to tune models specifically for semantic search, paraphrase mining, semantic similarity comparison, clustering, triplet loss, contrastive loss.
@@ -92,20 +90,31 @@ Some highlights are:
 
 Our models are evaluated extensively on 15+ datasets including challening domains like Tweets, Reddit, emails. They achieve by far the **best performance** from all available sentence embedding methods. Further, we provide several **smaller models** that are **optimized for speed**.
 
-## Speed - Performance Trade-Off
-Smaller models are faster, but show a (slightly) worse performance when evaluated on down stream tasks. To get an impression of this trade-off, we show some numbers of the *stsb-roberta-base* model with different number of layers:
+## Incorrect sentences
 
-| Layers | BLOOM | GPT-J-6B |BART |
-| ---- |:----:|:----:|:----:|
-| Our current population is 6 billion people and it is still growing exponentially. | 29.490658 | 18.9348 | 1.0000235 |
-| This will, if not already, caused  problems as there are very limited spaces for us. | 103.92918 | 111.370026 | 1.0057222 |
-| A manager should always be honest with their employees. | 34.297775 | 28.413712 | 1.0000546 |
-| They cooked the dinner themself. | 329.0331 | 167.6923 | 1.0001534 |
-| If I will be in London, I will contact to you. |  45.87319 | 18.13029 | 1.0001565 |
+The models are evaluated on the Preplexity score: the lower score on correct sentences and high score on incorrect sentences indicates good performance model:
+
+| Models | BLOOM | GPT-J-6B |BART | T5 |
+| ---- |:----:|:----:|:----:|:----:|
+| Our current population is 6 billion people and it is still growing exponentially. | 29.490658 | 18.9348 | 1.0000235 | 3.860105 |
+| This will, if not already, caused  problems as there are very limited spaces for us. | 103.92918 | 111.370026 | 1.0057222 | 2.565533 |
+| A manager should always be honest with their employees. | 34.297775 | 28.413712 | 1.0000546 | 2.4984558 |
+| They cooked the dinner themself. | 329.0331 | 167.6923 | 1.0001534 | 13.014829 |
+| If I will be in London, I will contact to you. |  45.87319 | 18.13029 | 1.0001565 | 3.2314863 |
+
+#### Correct sentences
+
+| Models | BLOOM | GPT-J-6B |BART | T5 |
+| ---- |:----:|:----:|:----:|:----:|
+| Our current population is 6 billion people and it is still growing exponentially. | 23.996367 | 16.459309 | 1.0000113 | 3.28777 |
+| This will, if not already, caused  problems as there are very limited spaces for us. | 45.060555 | 51.95318 | 1.0000496 | 2.5356748 |
+| A manager should always be honest with their employees. | 29.250494 | 26.321022 | 1.000057 | 2.493631 |
+| They cooked the dinner themself. | 232.12733 | 102.1904 | 1.0007304 | 9.535956 |
+| If I will be in London, I will contact to you. | 24.296467 | 20.484407 | 1.0000682 | 4.7148967 |
 
 ## Application Examples
 
-You can use this framework for:
+You can use this repo for:
 
 - [Computing Sentence Embeddings](https://www.sbert.net/examples/applications/computing-embeddings/README.html)
 - [Semantic Textual Similarity](https://www.sbert.net/docs/usage/semantic_textual_similarity.html)
@@ -119,5 +128,5 @@ You can use this framework for:
 
 and many more use-cases.
 
-For all examples, see [examples/applications](https://github.com/UKPLab/sentence-transformers/tree/master/examples/applications).
+
 
